@@ -20,7 +20,7 @@ RUN apk add --update --no-cache build-base \
     openssl openssl-dev \
     util-linux-dev libwebsockets-dev \
     # c-ares-dev libxslt \
-    coreutils perl-utils git bash
+    coreutils perl-utils git bash docker
 
 
 # take all lemma-chain files
@@ -33,14 +33,14 @@ WORKDIR /go/src/lemma-chain
 # create directory and change GOPATH
 # Don't use standard GOPATH directory 
 # DO NOT change the /tmp/build directory, because Dockerfile also picks up binaries from there.
-# Build for TAG Latest
+# Build for TAG master
 
 RUN mkdir /tmp/go && mkdir /tmp/build
-ENV GOPATH="/tmp/go" TAG="latest" TMP="/tmp/build"
+ENV GOPATH="/tmp/go" TAG="master" TMP="/tmp/build"
 # Necessary to pick up Gobin binaries like protoc-gen-gofast
 ENV PATH="$GOPATH/bin:$PATH" GOVERSION="1.12.1" 
 RUN echo "Building Dgraph for tag: $TAG" && \
-    # Stop on first failure.
+    # Stop on first failure. && \
     set -e && \
     set -o xtrace
  
@@ -64,7 +64,8 @@ RUN echo "Using $(go version)" && \
     go get -u -v github.com/dgraph-io/badger && \
     go get -u -v github.com/golang/protobuf/protoc-gen-go && \
     go get -u -v github.com/gogo/protobuf/protoc-gen-gofast && \
-    go get -u -v github.com/karalabe/xgo
+    go get -u -v github.com/karalabe/xgo && \
+    docker pull karalabe/xgo-latest
 
 RUN echo "Checkpoint 2 Reached successfully."
 

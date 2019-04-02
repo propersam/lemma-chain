@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # install and setup nvm (node version manager)
-apk add -U curl bash ca-certificates openssl ncurses coreutils python2 make gcc g++ libgcc linux-headers grep util-linux binutils findutils
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
-
+apk add -U curl bash ca-certificates openssl ncurses coreutils make gcc g++ libgcc linux-headers grep util-linux binutils findutils
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | /bin/bash
+source ~/.bashrc
 
 pushd $GOPATH/src/google.golang.org/grpc
   git checkout v1.13.0
