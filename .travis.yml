@@ -4,7 +4,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t honeyscoop/lemma-chain ./docker/
+  - docker build -t honeyscoop/lemma-chain .
 
 script:
   - docker run -it honeyscoop/lemma-chain /bin/sh echo "done"

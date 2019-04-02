@@ -24,7 +24,7 @@
 
 ## Build Docker Image
 
-```docker build -t honeyscoop/lemma-chain ./docker/```
+```docker build -t honeyscoop/lemma-chain .```
 
 ## License
 
