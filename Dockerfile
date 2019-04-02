@@ -68,8 +68,13 @@ RUN echo "Using $(go version)" && \
 
 RUN echo "Checkpoint 2 Reached successfully."
 
-# load shell scripts for building packages
-ENTRYPOINT [ "./docker/build-dgraph.sh" ]
+# The following lines builds the linux binary file
+# And prepare it to be transferred to the final stage of 
+# lemma-chain and DGraph build
+
+
+ RUN chmod +x "./docker/build-dgraph.sh" && \
+    source ./docker/build-dgraph.sh
 
 
 CMD [ "lemma-chain" ] # /go/bin is already available in path

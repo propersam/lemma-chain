@@ -1,4 +1,4 @@
-#!usr/bin/sh
+#!/usr/bin/sh
 
 # install and setup nvm (node version manager)
 apk add -U curl bash ca-certificates openssl ncurses coreutils python2 make gcc g++ libgcc linux-headers grep util-linux binutils findutils
