@@ -74,7 +74,7 @@ RUN echo "Checkpoint 2 Reached successfully."
 
 
  RUN chmod +x "./docker/build-dgraph.sh" && \
-    source ./docker/build-dgraph.sh
+    /bin/bash -c ./docker/build-dgraph.sh
 
 
 CMD [ "lemma-chain" ] # /go/bin is already available in path
