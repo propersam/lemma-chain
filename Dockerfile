@@ -1,5 +1,9 @@
-FROM golang:1.12.1-alpine3.1 As lemma
+FROM golang:1.12.1-alpine3.9 As lemma
 
+RUN apk upgrade && \
+    apk update && \
+    apk add git
+    
 RUN mkdir -p /go/src/lemma-chain
 WORKDIR /go/src/lemma-chain
 COPY . .
