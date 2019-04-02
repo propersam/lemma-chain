@@ -4,7 +4,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t honeyscoop/lemma-chain .
+  - docker build -t honeyscoop/lemma-chain ./docker/
 
 script:
   - go version
