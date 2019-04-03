@@ -17,6 +17,7 @@ RUN go get -v github.com/dgraph-io/dgraph/dgraph
 FROM golang:1.12.1-alpine3.9
 
 RUN apk update && apk upgrade
+RUN apk --no-cache add ca-certificates
 
 
 COPY --from=build /go/src/lemma-chain/lemma-chain /usr/local/bin
@@ -24,5 +25,7 @@ COPY --from=build /go/bin/ /usr/local/bin
 
 RUN mkdir /dgraph
 WORKDIR /dgraph
+
+EXPOSE 8080 9080 6080 5080 8000
 
 CMD ["lemma-chain"]
