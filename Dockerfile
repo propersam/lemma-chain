@@ -1,5 +1,5 @@
 
-FROM golang:1.12.1
+FROM golang:1.12.1 AS build
 
 RUN mkdir /go/src/lemma-chain
 WORKDIR /go/src/lemma-chain
