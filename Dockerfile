@@ -1,5 +1,5 @@
 
-FROM golang:1.12.1 as build
+FROM golang:1.12.1
 
 RUN mkdir /go/src/lemma-chain
 WORKDIR /go/src/lemma-chain
@@ -8,24 +8,17 @@ COPY . .
 
 # get all dependencies and build lemma-chain
 RUN go get -d -v ./...
-RUN go build -o lemma-chain .
-
-# Get and install dgraph
-RUN go get -v github.com/dgraph-io/dgraph/dgraph
+RUN go install -v ./...
 
 
 FROM golang:1.12.1-alpine3.9
 
-RUN apk update && apk upgrade
-RUN apk --no-cache add ca-certificates
+RUN apk update && apk add --no-cache \
+	ca-certificates
 
+COPY --from=build /go /go
 
-COPY --from=build /go/src/lemma-chain/lemma-chain /usr/local/bin
-COPY --from=build /go/bin/ /usr/local/bin
+WORKDIR /go/src/lemma-chain
 
-RUN mkdir /dgraph
-WORKDIR /dgraph
-
-EXPOSE 8080 9080 6080 5080 8000
 
 CMD ["lemma-chain"]
