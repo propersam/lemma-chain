@@ -8,7 +8,7 @@ COPY . .
 
 # build lemma-chain
 
-RUN go build -o lemma-chain .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -o lemma-chain .
 
 # Get and install dgraph
 RUN go get -v github.com/dgraph-io/dgraph/dgraph
