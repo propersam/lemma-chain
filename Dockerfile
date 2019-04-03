@@ -1,23 +1,30 @@
 
-
-FROM golang:1.12.1-alpine3.9 as lemma
-RUN apk upgrade && \
-    apk update
-
-RUN apk add --no-cache --update build-base \
-    openssl openssl-dev bash perl-utils \
-    util-linux-dev libwebsockets-dev \
-     coreutils git 
+FROM golang:1.12.1 as build
 
 RUN mkdir /go/src/lemma-chain
 WORKDIR /go/src/lemma-chain
 
 COPY . .
 
-RUN go get -d -v ./...
-RUN go install -v ./...
+# build lemma-chain
+
+RUN go build -o lemma-chain .
+
+# Get and install dgraph
 RUN go get -v github.com/dgraph-io/dgraph/dgraph
 
-EXPOSE 5080 6080 8080 9080
+# get and install goofys
+RUN go get -v github.com/kahing/goofys
+
+FROM golang:1.12.1-alpine3.9
+
+RUN apk update && apk upgrade
+RUN apk add --no-cache aws-cli
+
+COPY --from=build /go/src/lemma-chain/lemma-chain /usr/local/bin
+COPY --from=build /go/bin/ /usr/local/bin
+
+RUN mkdir /dgraph
+WORKDIR /dgraph
 
 CMD ["lemma-chain"]
