@@ -13,11 +13,8 @@ COPY . .
 
 RUN go get -d -v ./...
 RUN go install -v ./...
+RUN go get -v github.com/dgraph-io/dgraph/dgraph
 
-FROM dgraph/dgraph:latest as dgraph
-RUN apt-get -y update && apt-get -y install golang
-
-COPY --from=lemma /go /go
-WORKDIR /go/src/lemma-chain
+EXPOSE 5080 6080 8080 9080
 
 CMD ["lemma-chain"]
