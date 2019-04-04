@@ -21,7 +21,7 @@ WORKDIR /go/src/lemma-chain
 COPY . .
 
 ## get all dependencies and build lemma-chain
-# RUN go get -d -v ./...
+RUN go get -d -v ./...
 RUN CGO_ENABLED=0 go build -v -o /lemma-chain .
 
 # STEP 2: build alpine image
