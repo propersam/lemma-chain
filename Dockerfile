@@ -19,7 +19,7 @@ RUN CGO_ENABLED=0 go build -v -o /dgraph github.com/dgraph-io/dgraph/dgraph
 ## get all dependencies and build lemma-chain
 RUN go get -d -v github.com/thehonestscoop/lemma-chain
 Run cd $GOPATH/src/github.com/thehonestscoop/lemma-chain
-RUN CGO_ENABLED=0 go build -v -o /lemma-chain .
+RUN CGO_ENABLED=0 go build -v -o /lemma-chain github.com/thehonestscoop/lemma-chain
 
 # STEP 2: build alpine image
 FROM alpine:3.9
