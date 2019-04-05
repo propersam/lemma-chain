@@ -4,4 +4,4 @@ services:
   - docker
 
 script:
- - docker build -t honeyscoop/lemma-chain .
+ - docker build -t thehonestscoop/lemma-chain .
