@@ -22,7 +22,7 @@
 * Password Recovery
 * Account activation via email validation
 
-## Working Docker Image
+## Working with Docker Image
 
 ```docker build -t thehonestscoop/lemmachain .```
 
