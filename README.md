@@ -22,9 +22,13 @@
 * Password Recovery
 * Account activation via email validation
 
-## Build Docker Image
+## Working Docker Image
 
-```docker build -t honeyscoop/lemmachain .```
+```docker build -t thehonestscoop/lemmachain .```
+
+``` docker run -it --entrypoint=/bin/sh -p 1323:1323 --privileged thehonestscoop/lemma-chain ```
+
+``` docker run --privileged -p 1323:1323 thehonestscoop/lemma-chain ```
 
 ## License
 
