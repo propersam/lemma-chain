@@ -45,7 +45,6 @@ RUN mkdir /temp && cd /temp && \
 RUN mkdir /dgraph
 WORKDIR /dgraph
 
-EXPOSE 8080 8000 
 EXPOSE 1323
 
 # Set environment for AWS_ACCESS variables. 
