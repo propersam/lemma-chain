@@ -28,7 +28,7 @@
 
 ``` docker run -it --entrypoint=/bin/sh -p 1323:1323 --privileged thehonestscoop/lemma-chain ```
 
-``` docker run --privileged -p 1323:1323 thehonestscoop/lemma-chain ```
+``` docker run -e AWS_ACCESS_KEY_ID= AWS_SECRET_ACCESS_KEY= BUCKET_NAME=lemma-chain --privileged -p 1323:1323 thehonestscoop/lemma-chain ```
 
 ## License
 
