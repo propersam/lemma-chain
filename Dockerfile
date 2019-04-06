@@ -53,8 +53,6 @@ ENV AWS_ACCESS_KEY_ID= \
 	AWS_SECRET_ACCESS_KEY= \
 	BUCKET_NAME=lemma-chain
 
-RUN syslog-ng
-
 COPY dgraph_entry.sh /dgraph_entry.sh
 RUN chmod +x /dgraph_entry.sh
 CMD /dgraph_entry.sh
