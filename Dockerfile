@@ -2,7 +2,7 @@
 # STEP 1: build dgraph and lemma-chain
 FROM golang:1.12.1-alpine3.9 AS build
 
-RUN apk update && apk add --no-cache --update alpine-sdk automake fuse libxslt-dev
+RUN apk update && apk add --no-cache --update alpine-sdk autoconf automake fuse libxslt-dev
 
 ## set environment variable that's available
 ## only during Image build
@@ -28,8 +28,8 @@ RUN CGO_ENABLED=0 go build -v -o /goofys github.com/kahing/goofys
 
 ### Build s3fs-fuse binary
 RUN cd /tmp && \
-	git clone https://github.com/s3fs-fuse/s3fs-fuse.git && \
-    cd s3fs-fuse && ./autogen.sh && ./configure && make && \
+	git clone --depth 1 https://github.com/s3fs-fuse/s3fs-fuse.git && \
+    cd s3fs-fuse && ./autogen.sh && ./configure && make -j4 > /dev/null && make install && \
     cd .. && rm -Rf s3fs-fuse
 
 
