@@ -28,8 +28,8 @@ RUN CGO_ENABLED=0 go build -v -o /goofys github.com/kahing/goofys
 
 ### Build s3fs-fuse binary
 RUN cd /tmp && \
-	git clone --depth 1 https://github.com/s3fs-fuse/s3fs-fuse.git && \
-    cd s3fs-fuse && ./autogen.sh && ./configure && make -j4 > /dev/null && make install && \
+	git clone https://github.com/s3fs-fuse/s3fs-fuse.git && \
+    cd s3fs-fuse && ./autogen.sh && ./configure && make && \
     cd .. && rm -Rf s3fs-fuse
 
 
