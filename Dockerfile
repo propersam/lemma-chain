@@ -2,7 +2,7 @@
 # STEP 1: build dgraph and lemma-chain
 FROM golang:1.12.1-alpine3.9 AS build
 
-RUN apk update && apk add --no-cache git
+RUN apk update && apk add --no-cache --update automake alpine-sdk libxslt-dev
 
 ## set environment variable that's available
 ## only during Image build
@@ -26,14 +26,17 @@ RUN go get -d -v github.com/kahing/goofys
 RUN cd $GOPATH/src/github.com/kahing/goofys
 RUN CGO_ENABLED=0 go build -v -o /goofys github.com/kahing/goofys
 
+### Build s3fs-fuse binary
+RUN mkdir /tmp && cd /tmp && \
+	git clone --depth 1 https://github.com/s3fs-fuse/s3fs-fuse.git && \
+    cd s3fs-fuse && ./autogen.sh && ./configure && make -j4 > /dev/null && make install && \
+    cd / && rm -Rf /tmp
+
 # STEP 2: build alpine image
 FROM alpine:3.9
 RUN apk update && apk add --update --no-cache \
 bash python curl syslog-ng fuse-dev ca-certificates
 
-COPY --from=build /dgraph /usr/local/bin/dgraph
-COPY --from=build /lemma-chain /usr/local/bin/lemma-chain
-COPY --from=build /goofys /usr/local/bin/goofys
 
 # Download, Install and setup aws-cli
 RUN mkdir /temp && cd /temp && \
@@ -41,6 +44,11 @@ RUN mkdir /temp && cd /temp && \
 	unzip awscli-bundle.zip && \
 	./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
 	rm -rf /temp
+
+COPY --from=build /dgraph /usr/local/bin/dgraph
+COPY --from=build /lemma-chain /usr/local/bin/lemma-chain
+COPY --from=build /goofys /usr/local/bin/goofys
+COPY --from=build /usr/local/bin/s3fs /usr/local/bin/s3fs
 
 RUN mkdir /dgraph
 WORKDIR /dgraph
@@ -54,4 +62,5 @@ ENV AWS_ACCESS_KEY_ID= \
 
 COPY dgraph_entry.sh /dgraph_entry.sh
 RUN chmod +x /dgraph_entry.sh
+
 CMD /dgraph_entry.sh
