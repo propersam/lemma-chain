@@ -26,17 +26,13 @@ RUN go get -d -v github.com/kahing/goofys
 RUN cd $GOPATH/src/github.com/kahing/goofys
 RUN CGO_ENABLED=0 go build -v -o /goofys github.com/kahing/goofys
 
-### Build s3fs-fuse binary
-RUN cd /tmp && \
-	git clone --depth 1 https://github.com/s3fs-fuse/s3fs-fuse.git && \
-    cd s3fs-fuse && ./autogen.sh && ./configure && make -j4 > /dev/null && make install && \
-    cd .. && rm -Rf s3fs-fuse
-
 
 # STEP 2: build alpine image
 FROM alpine:3.9
 RUN apk update && apk add --update --no-cache \
-bash python curl syslog-ng fuse-dev ca-certificates
+	autoconf automake bash build-base \
+	curl-dev fuse-dev git \
+	libxml2-dev python pkgconf syslog-ng 
 
 
 # Download, Install and setup aws-cli
@@ -49,7 +45,12 @@ RUN mkdir /temp && cd /temp && \
 COPY --from=build /dgraph /usr/local/bin/dgraph
 COPY --from=build /lemma-chain /usr/local/bin/lemma-chain
 COPY --from=build /goofys /usr/local/bin/goofys
-COPY --from=build /usr/local/bin/s3fs /usr/local/bin/s3fs
+# COPY --from=build /usr/local/bin/s3fs /usr/local/bin/s3fs
+### Build s3fs-fuse binary
+RUN cd /tmp && \
+	git clone --depth 1 https://github.com/s3fs-fuse/s3fs-fuse.git && \
+    cd s3fs-fuse && ./autogen.sh && ./configure && make -j4 > /dev/null && make install && \
+    cd .. && rm -Rf s3fs-fuse
 
 RUN mkdir /dgraph
 WORKDIR /dgraph
