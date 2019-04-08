@@ -2,7 +2,7 @@
 # STEP 1: build dgraph and lemma-chain
 FROM golang:1.12.1-alpine3.9 AS build
 
-RUN apk update && apk add --no-cache --update alpine-sdk autoconf automake fuse-dev libcurl libxml2-dev
+RUN apk update && apk add --no-cache --update alpine-sdk autoconf automake fuse-dev curl-dev libxml2-dev
 
 ## set environment variable that's available
 ## only during Image build
