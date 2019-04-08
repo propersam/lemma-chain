@@ -30,7 +30,7 @@ RUN CGO_ENABLED=0 go build -v -o /goofys github.com/kahing/goofys
 # STEP 2: build alpine image
 FROM alpine:3.9
 RUN apk update && apk add --update --no-cache \
-	autoconf automake bash build-base \
+	autoconf automake bash build-base curl \
 	curl-dev fuse-dev git \
 	libxml2-dev python pkgconf syslog-ng 
 
