@@ -4,13 +4,21 @@
 set -m
 
 # start syslog before trying to mount volume with goofys
-syslog-ng
+# syslog-ng
 
-echo "mounting with goofys"
+# echo "mounting with goofys"
 # run goofys in foreground and
 # mount /graph to s3 bucket
-goofys $BUCKET_NAME /dgraph
+# goofys $BUCKET_NAME /dgraph
 
+## uncomment above and comment below to use goofys  
+
+echo "mounting with s3fs-fuse"
+# First create .passwd-s3fs file container secret details and set owner right
+echo $AWS_ACCESS_KEY_ID:$AWS_SECRET_ACCESS_KEY > ${HOME}/.passwd-s3fs
+chmod 600 ${HOME}/.passwd-s3fs
+#mount /dgraph to s3 bucket
+s3fs $BUCKET_NAME /dgraph
 
 # Check if the bucket is mounted.
 # Only start dgraph and lemma-chain when bucket is mounted
