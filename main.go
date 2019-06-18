@@ -5,6 +5,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/dgraph-io/dgo"
@@ -58,5 +59,5 @@ func main() {
 	e.GET("*", findChainHandler)           // Cached
 
 	// Start server
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", listenPort)))
 }
