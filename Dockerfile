@@ -60,9 +60,10 @@ EXPOSE 1323
 # Set environment for AWS_ACCESS variables. 
 ENV AWS_ACCESS_KEY_ID= \
 	AWS_SECRET_ACCESS_KEY= \
-	BUCKET_NAME=lemma-chain
+	BUCKET_NAME=lemma-chain \
+	MOUNT_PKG=s3fs
 
-COPY dgraph_entry.sh /dgraph_entry.sh
-RUN chmod +x /dgraph_entry.sh
+COPY dgraph_entry.sh /dgraph_entry1.sh
+RUN chmod +x /dgraph_entry1.sh
 
-CMD /dgraph_entry.sh
+CMD /dgraph_entry1.sh
